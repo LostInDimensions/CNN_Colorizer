@@ -22,7 +22,7 @@ The model architecture is based on a U-Net featuring a pretrained ResNet34 encod
 
 **Clone the repository:**
 ```
-git clone https://github.com/LostInDimensions/CNN_colorizer
+git clone https://github.com/LostInDimensions/CNN_Colorizer
 ```
 **Install dependencies:**
 ```
