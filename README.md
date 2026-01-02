@@ -1,0 +1,85 @@
+# CNN Image Colorization
+
+This project implements a neural network that predicts the *a* and *b* color channels of an image in the Lab color space, given the *L* (Lightness) channel.
+
+
+| Grayscale Input (L channel) | Colorized Output |
+|----------------------------|------------------|
+| <img src="imgs/test_img1.jpg" height="300"/> | <img src="out_imgs/colorized_test_img1.jpg" height="300"/> |
+
+
+While inspired by **"Colorful Image Colorization" (Zhang et al.)**, this implementation diverges in architecture and training strategy.
+
+The model architecture is based on a U-Net featuring a pretrained ResNet34 encoder and integrated Squeeze-and-Excitation (SE) blocks. Training was conducted over 230000 iterations using a progressive unfreezing strategy for the encoder layers. The final stage included GAN fine-tuning with a PatchDiscriminator, incorporating both adversarial loss and feature matching loss.
+
+## Requirements
+
+* Python
+* Git (required to clone the repository)
+
+
+## **Installation**
+
+**Clone the repository:**
+```
+git clone https://github.com/LostInDimensions/CNN_colorizer
+```
+**Install dependencies:**
+````
+cd CNN_Colorizer
+```
+```
+pip install -r requirements.txt
+```
+
+## **Usage**
+
+**Colorize a default test image**
+
+By default, the script looks for an image at `imgs/test_img1.jpg`.
+```
+python colorizer.py
+```
+
+**Colorize your own image**
+
+You can specify any image path using the `--image` argument:
+```
+python colorizer.py --image your_image_path.jpg
+```
+
+**Note:** The model weights will be downloaded automatically (~106 MB) the first time you run the script. 
+
+
+## Image Resolution
+
+The model was trained on images with a resolution of **256×256** pixels.  
+It generalizes well to higher resolutions, and larger images can be colorized without resizing.
+
+There is no strict resolution limit. However, **artifacts may become more noticeable for very large images**, typically starting around **~1500x1500 pixels and above**, depending on image content.
+
+
+## **Credits & References**
+
+This project is an independent implementation inspired by the research of Zhang et al. While the architecture and training strategy (ResNet+UNet+GAN) differ from the original paper, it relies on the same color quantization method.
+
+If you find this approach useful, please consider citing the original authors who pioneered this method: 
+
+```
+@inproceedings{zhang2016colorful,
+  title={Colorful Image Colorization},
+  author={Zhang, Richard and Isola, Phillip and Efros, Alexei A},
+  booktitle={ECCV},
+  year={2016}
+}
+
+@article{zhang2017real,
+  title={Real-Time User-Guided Image Colorization with Learned Deep Priors},
+  author={Zhang, Richard and Zhu, Jun-Yan and Isola, Phillip and Geng, Xinyang and Lin, Angela S and Yu, Tianhe and Efros, Alexei A},
+  journal={ACM Transactions on Graphics (TOG)},
+  volume={9},
+  number={4},
+  year={2017},
+  publisher={ACM}
+}
+```
